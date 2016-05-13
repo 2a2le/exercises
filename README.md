@@ -1,2 +1,2 @@
 # exercises
-Will contain practice examples
+Contains practice examples.
