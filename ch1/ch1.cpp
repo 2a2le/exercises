@@ -3,6 +3,9 @@
 #include<iostream>
 #include<cstdlib>
 
+
+#define M 10
+#define N 7
 // helpers
 
 // Mergesort
@@ -154,7 +157,6 @@ void itoa(int n, char s[])
     reverse(s);
 }
 
-
 std::string compress_string(std::string str) {
     std::string s ("");
     char buffer[11];
@@ -176,6 +178,53 @@ std::string compress_string(std::string str) {
     }
     if (s.size() < str.size()) return s;
     return str;
+}
+
+
+/* 1.6 Given an image represented by an NxN matrix, where each pixel in the image is
+4 bytes, write a method to rotate the image by 90 degrees. Can you do this in
+place?
+*/
+
+void rotate_image(int image[][N], int n) {
+    int tmp;
+    for (int i=0; i<n/2; i++)
+        for (int j=i; j<n-i-1; j++) {
+            tmp = image[n-j-1][i];
+            image[n-j-1][i] = image[n-i-1][n-j-1];
+            image[n-i-1][n-j-1] = image[j][n-i-1];
+            image[j][n-i-1] = image[i][j];
+            image[i][j] = tmp;
+        }
+}
+
+void print_matrix(int a[][N], int m, int n) {
+    for (int i=0; i<m; i++) {
+        for (int j=0; j<n; j++)
+            std::cout << a[i][j] << "  ";
+        std::cout << std::endl;
+    }
+}
+
+
+/* 1.7 Write an algorithm such that if an element in an MxN matrix is 0, its entire row
+and column are set to 0.
+*/
+
+void zero_matrix(int a[M][N]) {
+    int ii[M], jj[N], iin=0, jjn=0;
+    for (int i=0; i<M; i++)
+        for (int j=0; j<N; j++)
+            if (a[i][j] == 0) {
+                ii[iin++] = i;
+                jj[jjn++] = j;
+            }
+    for (int i=0; i<iin; i++)
+        for (int j=0; j<N; j++)
+            a[ii[i]][j] = 0;
+    for (int j=0; j<jjn; j++)
+        for (int i=0; i<M; i++)
+            a[i][jj[j]] = 0;
 }
 
 int main() {
@@ -234,6 +283,44 @@ int main() {
     std::cout << "Compress: |" << "abcd" << "| - |" << compress_string("abcd") << "|" << std::endl;
     std::cout << "Compress: |" << "" << "| - |" << compress_string("") << "|" << std::endl;
     std::cout << "Compress: |" << "aabbb" << "| - |" << compress_string("aabbb") << "|" << std::endl;
+    std::cout << "______________________________________" << std::endl;
+    std::cout << std::endl << std::endl;
+
+
+    std::cout << "Exercise 1.6" << std::endl;
+    std::cout << "______________________________________" << std::endl;
+    n = N;
+    int img[N][N];
+    for (int i=0; i<N; i++)
+        for (int j=0; j<N; j++)
+            img[i][j] = n*i+j;
+
+    std::cout << "Original:" << std::endl;
+    print_matrix(img, n, n);
+    rotate_image(img, n);
+    std::cout << "Rotated:" << std::endl;
+    print_matrix(img, n, n);
+    
+    std::cout << "______________________________________" << std::endl;
+    std::cout << std::endl << std::endl;
+
+
+    std::cout << "Exercise 1.7" << std::endl;
+    std::cout << "______________________________________" << std::endl;
+    n = N;
+    int matrix[M][N];
+    for (int i=0; i<M; i++)
+        for (int j=0; j<N; j++)
+            matrix[i][j] = 1;
+    matrix[3][4] = 0; matrix[6][6] = 0; matrix[9][2] = 0;
+    matrix[5][5] = 0;
+
+    std::cout << "Original:" << std::endl;
+    print_matrix(matrix, M, N);
+    zero_matrix(matrix);
+    std::cout << "Zeroed:" << std::endl;
+    print_matrix(matrix, M, N);
+    
     std::cout << "______________________________________" << std::endl;
     std::cout << std::endl << std::endl;
 }
