@@ -67,6 +67,18 @@ bool uniq2(std::string str) {
     return true;
 }
 
+/*
+bool isUniqueChars(std::string str) {
+  int checker;
+  for (int i=0; i < str.length(); i++) {
+    int val = str[i] - 'a';
+    if (((checker & (1 << val)) > 0) {
+      return false;
+    }
+}
+}
+*/   
+
 
 // 1.2 Implement a function void reverse(char* str) in C or C++ which reverses a null-
 // terminated string.
@@ -83,6 +95,25 @@ void reverse(char* str) {
         str[i] = str[len-1-i];
         str[len-1-i] = tmp;
     }
+}
+
+void reverse2(char* str) {
+  char *end = str;
+  char tmp;
+  if (str) {
+    while (*end) { /* find end of the string */
+      ++end;
+    }
+    --end; /* set one char back, since last char is null */
+
+    /* swap characters from start of string with the end of the  
+     * string, until the pointers meet in middle.  */
+    while (str < end) {
+      tmp = *str;
+      *str++ = *end;
+      *end-- = tmp;
+    }
+  }
 }
 
 
@@ -227,6 +258,23 @@ void zero_matrix(int a[M][N]) {
             a[i][jj[j]] = 0;
 }
 
+/* 1.7 Write an algorithm such that if an element in an MxN matrix is 0, its entire row
+and column are set to 0.
+*/
+bool isSubstring(std::string s1, std::string s2) {
+  return (s1.find(s2) != std::string::npos);
+}
+
+bool isRotation(std::string s1, std::string s2) {
+  unsigned int len = s1.length();
+  /* check if s1 and s2 have the same length and are not empty */
+  if (len == s2.length() && len > 0) {
+    std::string s1s1 = s1 + s1;
+    return isSubstring(s1s1, s2);
+  }
+  return false;
+}
+
 int main() {
     std::cout << "Exercise 1.1" << std::endl;
     std::cout << "______________________________________" << std::endl;
@@ -241,11 +289,11 @@ int main() {
 
     std::cout << "Exercise 1.2" << std::endl;
     std::cout << "______________________________________" << std::endl;
-    char str1[] = "a"; reverse(str1);
+    char str1[] = "a"; reverse2(str1);
     std::cout << "a: " << str1 << std::endl;
-    char str2[] = "abcd"; reverse(str2);
+    char str2[] = "abcd"; reverse2(str2);
     std::cout << "abcd: " << str2 << std::endl;
-    char str3[] = "abcde"; reverse(str3);
+    char str3[] = "abcde"; reverse2(str3);
     std::cout << "abcde: " << str3 << std::endl;
     std::cout << "______________________________________" << std::endl;
     std::cout << std::endl << std::endl;
@@ -320,6 +368,17 @@ int main() {
     zero_matrix(matrix);
     std::cout << "Zeroed:" << std::endl;
     print_matrix(matrix, M, N);
+    
+    std::cout << "______________________________________" << std::endl;
+    std::cout << std::endl << std::endl;
+
+    std::cout << "Exercise 1.8" << std::endl;
+    std::cout << "______________________________________" << std::endl;
+    std::string s1 ("waterbottle");
+    std::string s2 ("erbottlewat");
+    std::string s3 ("erbotllewat");
+    std::cout << "isRotation(" << s1 << ", " << s2 << "): " << isRotation(s1,s2) << std::endl;
+    std::cout << "isRotation(" << s1 << ", " << s3 << "): " << isRotation(s1,s3) << std::endl;
     
     std::cout << "______________________________________" << std::endl;
     std::cout << std::endl << std::endl;
